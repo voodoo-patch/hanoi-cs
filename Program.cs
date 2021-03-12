@@ -9,7 +9,7 @@ namespace Hanoi
         {
             var config = new GameConfig()
             {
-                Disks = 3,
+                Disks = 9,
                 Rods = 3,
                 SourceTowerIndex = 0,
                 DestTowerIndex = 1

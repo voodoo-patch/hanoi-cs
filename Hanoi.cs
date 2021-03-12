@@ -39,7 +39,7 @@ namespace Hanoi
 
             Solve(disks - 1, source, support, destination);
 
-            destination.Push(source.Pop());
+            this.SwapHead(source, destination);
 
             Solve(disks - 1, support, destination, source);
         }
