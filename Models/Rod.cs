@@ -15,7 +15,7 @@ namespace Hanoi.Models
 
         public Rod Over()
         {
-            return new Rod(this.TakeLast(this.Count));
+            return new Rod(this.SkipLast(1).Reverse().ToList());
         }
 
         public void Fill(uint disks)

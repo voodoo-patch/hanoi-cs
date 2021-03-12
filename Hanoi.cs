@@ -24,47 +24,56 @@ namespace Hanoi
         }
 
         public void Solve() => this.Solve(
+            config.Disks,
             this.board.SourceRod(),
             this.board.DestRod(),
             this.board.GetSupport()
             );
 
-        private void Solve(Rod source, Rod destination, Rod support)
+        private void Solve(uint disks, Rod source, Rod destination, Rod support)
         {
-            if (!source.Over().Any())
+            if (disks == 0)
             {
-                this.SwapHead(source, destination);
+                return;
             }
-            else
-            {
-                this.Solve(source.Over(), support, destination);
-                this.SwapHead(source, destination);
-                this.Solve(support, destination.Over(), source);
-            }
+
+            Solve(disks - 1, source, support, destination);
+
+            destination.Push(source.Pop());
+
+            Solve(disks - 1, support, destination, source);
         }
 
         private void SwapHead(Rod source, Rod destination)
         {
+            if (!this.EnsureMove(source, destination))
+                throw new InvalidOperationException("Attempted illegal move");
+
             uint disk = source.Pop();
             destination.Push(disk);
         }
 
+        private bool EnsureMove(Rod source, Rod destination)
+        {
+            return !destination.Any() || source.Peek() < destination.Peek();
+        }
+
         public void Print()
         {
-            var height = this.config.Disks + 2;
+            int height = (int)this.config.Disks + 2;
             for (var rodIndex = 0; rodIndex < this.config.Rods; rodIndex++)
             {
                 Console.Write($"\t{rodIndex}");
             }
             Console.Write("\n");
 
-            while (height > 0)
+            while (height >= 0)
             {
                 for (uint rodIndex = 0; rodIndex < this.config.Rods; rodIndex++)
                 {
-                    Rod rod = this.board.Rod(rodIndex);
-                    int? val = ((IEnumerable<int?>)rod).ElementAtOrDefault((int)height);
-                    Console.Write("\t" + (val != null ? val.ToString() : "|"));
+                    IEnumerable<uint> rod = this.board.Rod(rodIndex).Reverse();
+                    uint val = rod.ElementAtOrDefault((int)height);
+                    Console.Write("\t" + (val != default(uint) ? val.ToString() : "|"));
                 }
                 Console.Write("\n");
                 height--;

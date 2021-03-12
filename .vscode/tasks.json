@@ -7,9 +7,9 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/hanoi/hanoi.csproj",
-                "/property:GenerateFullPaths=true",
-                "/consoleloggerparameters:NoSummary"
+                // "${workspaceFolder}/hanoi/hanoi.csproj",
+                // "/property:GenerateFullPaths=true",
+                // "/consoleloggerparameters:NoSummary"
             ],
             "problemMatcher": "$msCompile"
         },
